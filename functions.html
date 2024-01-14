@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    button {
+      margin: 0px 30px;
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <p style="font-size: 50px; margin: 0px;">Jak-En-Poy Game</p>
+  <button onclick="playerGame('Rock')">Rock</button>
+  <button onclick="playerGame('Paper')">Paper</button>
+  <button onclick="playerGame('Scissors')">Scissors</button>
+  <button onclick="
+    localStorage.removeItem('score')
+    
+  ">Reset Score</button>
+  <script>
+    let score=JSON.parse(localStorage.getItem('score')) || 
+    {
+      Win: 0,
+      Lose: 0,
+      Tie: 0
+    }
+    
+
+
+    function playerGame(playerMove) {
+      const computerMove = pickComputerMove();
+      result='';
+      if (playerMove == computerMove) {
+        result='Tie';
+      }
+      if (playerMove === 'Scissors')
+          {
+            if (computerMove === 'Rock') {
+              result = 'You Lose';
+            } else if (computerMove=== 'Paper'){
+              result = 'You win';
+            }
+          }
+
+      else if (playerMove ==='Paper')
+           {
+              if (computerMove === 'Rock') {
+              result = 'You Win';
+            }else if (computerMove === 'Scissors') {
+              result = 'You lose';
+            }
+
+          }
+
+      else if (playerMove === 'Rock')
+          {
+            if (computerMove=== 'Paper'){
+              result = 'You Lose';
+            }else if (computerMove === 'Scissors'){
+              result = 'You Win';
+            }
+          }
+
+      if (result === 'You Win') {
+        score.Win +=1;
+      }else if (result === 'You Lose') {
+        score.Lose +=1;
+      }else{
+        score.Tie +=1;
+      }
+
+      localStorage.setItem('score',JSON.stringify(score))
+
+      console.log(`The Computer Pick ${computerMove},You Pick ${playerMove}.${result}.
+Wins: ${score.Win}, Lose: ${score.Lose}, Tie: ${score.Tie}`);
+}
+    function pickComputerMove() {
+      const randomPick = Math.random();
+      let computerMove='';
+      if (randomPick<=1/3 && randomPick>=0) {
+        computerMove='Rock';
+      }else if (randomPick<=2/3 && randomPick>=1/3) {
+        computerMove=('Paper');
+      }else{
+        computerMove='Scissors';
+      } 
+      return computerMove;
+    }
+  </script>
+</body>
+</html>
